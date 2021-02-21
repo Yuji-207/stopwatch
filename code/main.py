@@ -1,5 +1,6 @@
-import tkinter as tk
+import csv
 import time
+import tkinter as tk
 
 class Application(tk.Frame):
     def __init__(self,master):
@@ -42,17 +43,21 @@ class Application(tk.Frame):
         if self.playTime:
             self.lap1_time = time.time() - self.startTime
             self.lap1_times.append(self.lap1_time)
-            lap1 = tk.Label(text=u'test')
+            lap1 = tk.Label(text=self.lap1_time)
             lap1.pack()
 
-    def lap1ButtonClick(self):
+    def lap2ButtonClick(self):
         if self.playTime:
-            self.lap1_time = time.time() - self.startTime
-            self.lap1_times.append(self.lap1_time)
-            lap1 = tk.Label(text=u'test')
-            lap1.pack()
+            self.lap2_time = time.time() - self.startTime
+            self.lap2_times.append(self.lap2_time)
+            lap2 = tk.Label(text=self.lap2_time)
+            lap2.pack()
 
     def resetButtonClick(self):
+        path = '/Users/yuji/Documents/study_csv.csv'
+        with open(path, 'w') as f:
+            writer = csv.writer(f)
+            writer.writerows([self.lap1_times, self.lap2_times].T)
         self.startTime=time.time()
         self.stopTime=0.0
         self.elapsedTime=0.0
