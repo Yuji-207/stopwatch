@@ -1,7 +1,8 @@
 import csv
 import time
 import tkinter as tk
-# from playsound import playsound
+import datetime as dt
+from playsound import playsound
 
 class Application(tk.Frame):
     def __init__(self,master):
@@ -15,12 +16,12 @@ class Application(tk.Frame):
         self.startTime=time.time()
         self.stopTime=0.0
         self.elapsedTime=0.0
-        self.lap1_times = []
-        self.lap2_times = []
+        self.lap_times = []
+        self.lap_number = 0
+        self.lap_numbers = []
         self.scores = []
         self.playTime=False
         self.sound_path = '/Users/yuji/Documents/GitHub/stopwatch/sound/fasten_seatbelt_sign.wav'
-        self.csv_path = '/Users/yuji/Documents/study_csv.csv'
 
         self.canvas = tk.Canvas(master,width=590,height=80,bg="skyblue")
         self.canvas.place(x=3,y=10)
@@ -28,9 +29,9 @@ class Application(tk.Frame):
         tk.Button(master,text="Reset",command=self.resetButtonClick,width=10).place(x=10, y=110)
         tk.Button(master,text="Start",command=self.startButtonClick,width=10).place(x=110, y=110)
         tk.Button(master,text="Stop",command=self.stopButtonClick,width=10).place(x=210, y=110)
-        tk.Button(master,text="Correct",command=self.correctButtonClick,width=10).place(x=310, y=110)
-        tk.Button(master,text="Incorrect",command=self.incorrectButtonClick,width=10).place(x=410, y=110)
-        tk.Button(master,text="Next",command=self.nextButtonClick,width=10).place(x=510, y=110)
+        tk.Button(master,text="Correct",command=self.correctButtonClick,width=10, bg='blue').place(x=310, y=110)
+        tk.Button(master,text="Incorrect",command=self.incorrectButtonClick,width=10, bg='red').place(x=410, y=110)
+        tk.Button(master,text="Next",command=self.nextButtonClick,width=10, bg='yellow').place(x=510, y=110)
 
         master.after(50,self.update)
 
@@ -38,7 +39,7 @@ class Application(tk.Frame):
         if not self.playTime:
             self.startTime=time.time()-self.elapsedTime
             self.playTime=True
-            # playsound(self.sound_path)
+            self.csv_path = f'/Users/yuji/Documents/study_records/{dt.datetime.now()}.csv'
 
     def stopButtonClick(self):
         if self.playTime:
@@ -47,31 +48,32 @@ class Application(tk.Frame):
 
     def nextButtonClick(self):
         if self.playTime:
-            self.lap1_time = time.time() - self.startTime
-            self.lap1_times.append(self.lap1_time)
-            lap = tk.Label(text=self.lap1_time)
+            self.lap_time = time.time() - self.startTime
+            self.lap_times.append(self.lap_time)
+            self.lap_numbers.append(self.lap_number)
+            self.lap_number = 0
+            lap = tk.Label(text=round(self.lap_time, 2))
             lap.pack()
 
     def correctButtonClick(self):
         if self.playTime:
-            self.lap2_time = time.time() - self.startTime
-            self.lap2_times.append(self.lap2_time)
             self.scores.append(True)
+            self.lap_number += 1
 
     def incorrectButtonClick(self):
         if self.playTime:
-            self.lap2_time = time.time() - self.startTime
-            self.lap2_times.append(self.lap2_time)
             self.scores.append(False)
+            self.lap_number += 1
 
     def resetButtonClick(self):
         with open(self.csv_path, 'w') as f:
             writer = csv.writer(f)
-            writer.writerows([self.lap1_times, self.lap2_times, self.scores])
+            writer.writerows([self.lap_times, self.lap_numbers, self.scores])
         self.startTime=time.time()
         self.stopTime=0.0
         self.elapsedTime=0.0
         self.playTime=False
+        playsound(self.sound_path)
 
     def update(self):
         self.canvas.delete("Time")
@@ -86,7 +88,7 @@ class Application(tk.Frame):
 def main():
     win = tk.Tk()
     #win.resizable(width=False, height=False) #ウィンドウを固定サイズに
-    app = Application(master=win)   
+    app = Application(master=win)
     app.mainloop()
 
 if __name__ == "__main__":
