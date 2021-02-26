@@ -75,8 +75,15 @@ document.getElementById('next').onclick = () => {
 
     let minute = diff / number / 60000;
     minute = minute.toPrecision(2);
+
+
+    let displaySumScore = sumScore / number * 100;
+    if (displaySumScore < 100) {
+      displaySumScore = displaySumScore.toPrecision(2);
+    }
     
     document.getElementById('scores').insertAdjacentHTML('beforeend', ' ' + String(score) + '%');
+    document.getElementById('scores').insertAdjacentHTML('beforeend', ' ' + String(displaySumScore) + ' %');
     document.getElementById('scores').insertAdjacentHTML('beforeend', ' ' + String(minute) + ' m/q');
     document.getElementById('scores').insertAdjacentHTML('beforeend', '<br>');
 
