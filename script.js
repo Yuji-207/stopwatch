@@ -1,27 +1,33 @@
-const totalTime = 10000;
-const oldTime = Date.now();
+let stopTime = 0;
+let count = false;
+let intervalId;
+let diff;
 
-const timeId = setInterval(() => {
-  const currentTime = Date.now();
+document.getElementById('start').onclick = () => {
+  if (count == false) {
 
-  // 差分を求める
-  const diff = currentTime - oldTime;
+    let startTime = Date.now() - stopTime;
+    count = true;
 
-  const diffSec = totalTime - diff;
+    intervalId = setInterval(() => {
+      diff = Date.now() - startTime;
+      document.querySelector('#display').innerHTML = Math.ceil(diff / 1000);
+    });
 
-  //ミリ秒を整数に変換
-  const remainSec = Math.ceil(diffSec / 1000);
-
-  let text = `残り${remainSec}秒`;
-
-  // 0秒以下になったら
-  if (diffSec <= 0) {
-    clearInterval(timeId);
-
-    // タイマー終了の文言を表示する
-    text = "終了";
   }
+};
 
-  // 画面に表示する
-  document.querySelector('#log').innerHTML = text;
-})
+document.getElementById('stop').onclick = () => {
+  if (count == true) {
+    count = false;
+    stopTime = diff;
+    clearInterval(intervalId);
+  }
+};
+
+document.getElementById('reset').onclick = () => {
+  count = false;
+  stopTime = 0;
+  clearInterval(intervalId);
+  document.querySelector('#display').innerHTML = 0;
+};
