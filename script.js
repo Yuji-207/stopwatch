@@ -17,7 +17,7 @@ function timeChange(ms) {
 }
 
 document.getElementById('start').onclick = () => {
-  if (count == false) {
+  if (!count) {
 
     let startTime = Date.now() - stopTime;
     count = true;
@@ -31,7 +31,7 @@ document.getElementById('start').onclick = () => {
 };
 
 document.getElementById('stop').onclick = () => {
-  if (count == true) {
+  if (count) {
     count = false;
     stopTime = diff;
     clearInterval(intervalId);
@@ -48,26 +48,36 @@ document.getElementById('reset').onclick = () => {
   document.getElementById('scores').innerHTML = '';
 };
 
-document.getElementById('correct').onclick = () => {
-  if (count == true) {
-
+document.getElementById('correct').onclick = () => {  
+  if (count) {
+    
+    if (scores.length == 0) {
+      document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td class="text-start" id="td-${number+1}"><i class="fas fa-check true"></i></td></tr>`);
+    } else {
+      document.getElementById(`td-${number+1}`).insertAdjacentHTML('beforeend', '<i class="fas fa-check true"></i>');
+    }
+    
     scores.push(true);
-    document.getElementById('scores').insertAdjacentHTML('beforeend', '○');
 
   }
 };
 
 document.getElementById('incorrect').onclick = () => {
-  if (count == true) {
+  if (count) {
+
+    if (scores.length == 0) {
+      document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td class="text-start" id="td-${number+1}"><i class="fas fa-times false"></i></td></tr>`);
+    } else {
+      document.getElementById(`td-${number+1}`).insertAdjacentHTML('beforeend', '<i class="fas fa-times false"></i>');
+    }
 
     scores.push(false);
-    document.getElementById('scores').insertAdjacentHTML('beforeend', '×');
   
   }
 };
 
 document.getElementById('next').onclick = () => {
-  if (count == true) {
+  if (scores.length > 0) {
 
     let sum = scores.reduce(function(a, b){
       return a + b;
@@ -86,16 +96,18 @@ document.getElementById('next').onclick = () => {
     let minute = diff / number / 60000;
     minute = minute.toPrecision(2);
 
+    let trueNum = document.getElementsByClassName('true').length;
+    let falseNum = document.getElementsByClassName('false').length;
 
-    let displaySumScore = sumScore / number * 100;
+    let displaySumScore = trueNum / (trueNum + falseNum) * 100;
     if (displaySumScore < 100) {
       displaySumScore = displaySumScore.toPrecision(2);
     }
     
-    document.getElementById('scores').insertAdjacentHTML('beforeend', ' ' + String(score) + '%');
-    document.getElementById('scores').insertAdjacentHTML('beforeend', ' ' + String(displaySumScore) + ' %');
-    document.getElementById('scores').insertAdjacentHTML('beforeend', ' ' + String(minute) + ' m/q');
-    document.getElementById('scores').insertAdjacentHTML('beforeend', '<br>');
+    stringDisplaySumScore = String(displaySumScore) + ' %';
+    stringMinute = String(minute) + ' m/q';
+
+    document.getElementById(`tr-${number}`).insertAdjacentHTML('beforeend', `<td>${stringDisplaySumScore}</td><td>${stringMinute}</td>`);
 
   }
 };
