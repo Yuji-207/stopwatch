@@ -7,9 +7,12 @@ let number = 0;
 let sumScore = 0;
 
 function timeChange(ms) {
-  hour = String(Math.floor(ms / 3600000)).padStart(2, '0');
-  minute = String(Math.floor(ms / 60000)).padStart(2, '0');
-  second = String(Math.floor(ms / 1000)).padStart(2, '0');
+  hour = Math.floor(ms / 3600000)
+  minute = Math.floor(ms % 3600000 / 60000)
+  second = Math.floor(ms % 360000 % 60000 / 1000)
+  hour = String(hour).padStart(2, '0');
+  minute = String(minute).padStart(2, '0');
+  second = String(second).padStart(2, '0');
   return hour + ':' + minute + ':' + second;
 }
 
