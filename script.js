@@ -5,6 +5,7 @@ let diff;
 let scores = [];
 let number = 0;
 let sumScore = 0;
+let sound_path = 'seatbelt_sign.wav';
 
 function timeChange(ms) {
   hour = Math.floor(ms / 3600000)
@@ -16,8 +17,16 @@ function timeChange(ms) {
   return hour + ':' + minute + ':' + second;
 }
 
+function playSound(path) {
+  let audioElem = new Audio();
+  audioElem.src = path;
+  audioElem.play();
+}
+
 document.getElementById('start').onclick = () => {
   if (!count) {
+
+    playSound(sound_path);
 
     let startTime = Date.now() - stopTime;
     count = true;
@@ -26,19 +35,22 @@ document.getElementById('start').onclick = () => {
       diff = Date.now() - startTime;
       document.getElementById('display').innerHTML = timeChange(diff);
     });
-
   }
 };
 
 document.getElementById('stop').onclick = () => {
   if (count) {
+    playSound(sound_path);
     count = false;
     stopTime = diff;
     clearInterval(intervalId);
+
+
   }
 };
 
 document.getElementById('reset').onclick = () => {
+  playSound(sound_path);
   count = false;
   stopTime = 0;
   scores = [];
@@ -50,9 +62,9 @@ document.getElementById('reset').onclick = () => {
 
 document.getElementById('correct').onclick = () => {  
   if (count) {
-    
+    playSound(sound_path);
     if (scores.length == 0) {
-      document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td class="text-start" id="td-${number+1}"><i class="fas fa-check true"></i></td></tr>`);
+      document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td class="text-start" id="td-${number+1}"><i class="fas fa-check true "></i></td></tr>`);
     } else {
       document.getElementById(`td-${number+1}`).insertAdjacentHTML('beforeend', '<i class="fas fa-check true"></i>');
     }
@@ -64,7 +76,7 @@ document.getElementById('correct').onclick = () => {
 
 document.getElementById('wrong').onclick = () => {
   if (count) {
-
+    playSound(sound_path);
     if (scores.length == 0) {
       document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td class="text-start" id="td-${number+1}"><i class="fas fa-times false"></i></td></tr>`);
     } else {
@@ -78,7 +90,7 @@ document.getElementById('wrong').onclick = () => {
 
 document.getElementById('next').onclick = () => {
   if (scores.length > 0) {
-
+    playSound(sound_path);
     let sum = scores.reduce(function(a, b){
       return a + b;
     });
