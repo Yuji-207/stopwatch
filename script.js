@@ -6,6 +6,13 @@ let scores = [];
 let number = 0;
 let sumScore = 0;
 
+function timeChange(ms) {
+  hour = String(Math.floor(ms / 3600000)).padStart(2, '0');
+  minute = String(Math.floor(ms / 60000)).padStart(2, '0');
+  second = String(Math.floor(ms / 1000)).padStart(2, '0');
+  return hour + ':' + minute + ':' + second;
+}
+
 document.getElementById('start').onclick = () => {
   if (count == false) {
 
@@ -14,7 +21,7 @@ document.getElementById('start').onclick = () => {
 
     intervalId = setInterval(() => {
       diff = Date.now() - startTime;
-      document.getElementById('display').innerHTML = Math.ceil(diff / 1000);
+      document.getElementById('display').innerHTML = timeChange(diff);
     });
 
   }
@@ -34,7 +41,7 @@ document.getElementById('reset').onclick = () => {
   scores = [];
   number = [];
   clearInterval(intervalId);
-  document.getElementById('display').innerHTML = 0;
+  document.getElementById('display').innerHTML = '00:00:00';
   document.getElementById('scores').innerHTML = '';
 };
 
