@@ -62,11 +62,11 @@ document.getElementById('reset').onclick = () => {
 
 document.getElementById('correct').onclick = () => {  
   if (count) {
-    playSound(sound_path);
+    
     if (scores.length == 0) {
-      document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td class="text-start" id="td-${number+1}"><i class="fas fa-check true "></i></td></tr>`);
+      document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td class="text-start" id="td-${number+1}"><i class="fas fa-check true"></i></td></tr>`);
     } else {
-      document.getElementById(`td-${number+1}`).insertAdjacentHTML('beforeend', '<i class="fas fa-check true"></i>');
+      document.getElementById(`td-${number+1}`).insertAdjacentHTML('beforeend', '<i class="fas fa-check ms-2 true"></i>');
     }
     
     scores.push(true);
@@ -76,11 +76,11 @@ document.getElementById('correct').onclick = () => {
 
 document.getElementById('wrong').onclick = () => {
   if (count) {
-    playSound(sound_path);
+    
     if (scores.length == 0) {
       document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td class="text-start" id="td-${number+1}"><i class="fas fa-times false"></i></td></tr>`);
     } else {
-      document.getElementById(`td-${number+1}`).insertAdjacentHTML('beforeend', '<i class="fas fa-times false"></i>');
+      document.getElementById(`td-${number+1}`).insertAdjacentHTML('beforeend', '<i class="fas fa-times ms-2 false"></i>');
     }
 
     scores.push(false);
