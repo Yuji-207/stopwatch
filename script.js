@@ -62,7 +62,7 @@ document.getElementById('correct').onclick = () => {
   }
 };
 
-document.getElementById('incorrect').onclick = () => {
+document.getElementById('wrong').onclick = () => {
   if (count) {
 
     if (scores.length == 0) {
