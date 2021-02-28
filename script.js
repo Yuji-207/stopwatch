@@ -6,6 +6,7 @@ let scores = [];
 let number = 0;
 let sumScore = 0;
 let sound_path = 'seatbelt_sign.wav';
+let lastDiff = 0;
 
 function timeChange(ms) {
   hour = Math.floor(ms / 3600000)
@@ -38,7 +39,7 @@ document.getElementById('start').onclick = () => {
 
     if (number == 0) {
       let date = new Date();
-      date = String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+      date = 'Start: ' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
       document.getElementById('start-time').innerHTML = date;
     }
   }
@@ -61,15 +62,16 @@ document.getElementById('reset').onclick = () => {
   number = [];
   clearInterval(intervalId);
   document.getElementById('timer').innerHTML = '00:00:00';
-  document.getElementById('start-time').innerHTML = '00:00';
+  document.getElementById('start-time').innerHTML = 'Start: 00:00';
   document.getElementById('scores').innerHTML = '';
+  lastDiff = 0;
 };
 
 document.getElementById('correct').onclick = () => {  
   if (count) {
     
     if (scores.length == 0) {
-      document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td class="text-start" id="td-${number+1}"><i class="fas fa-check true"></i></td></tr>`);
+      document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td>${number+1}</td><td class="text-start" id="td-${number+1}"><i class="fas fa-check true"></i></td></tr>`);
     } else {
       document.getElementById(`td-${number+1}`).insertAdjacentHTML('beforeend', '<i class="fas fa-check ms-2 true"></i>');
     }
@@ -83,7 +85,7 @@ document.getElementById('wrong').onclick = () => {
   if (count) {
     
     if (scores.length == 0) {
-      document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td class="text-start" id="td-${number+1}"><i class="fas fa-times false"></i></td></tr>`);
+      document.getElementById('scores').insertAdjacentHTML('beforeend', `<tr id="tr-${number+1}"><td>${number+1}</td><td class="text-start" id="td-${number+1}"><i class="fas fa-times false"></i></td></tr>`);
     } else {
       document.getElementById(`td-${number+1}`).insertAdjacentHTML('beforeend', '<i class="fas fa-times ms-2 false"></i>');
     }
@@ -124,7 +126,8 @@ document.getElementById('next').onclick = () => {
     stringDisplaySumScore = String(displaySumScore) + ' %';
     stringMinute = String(minute) + ' m/q';
 
-    document.getElementById(`tr-${number}`).insertAdjacentHTML('beforeend', `<td>${stringDisplaySumScore}</td><td>${stringMinute}</td>`);
+    document.getElementById(`tr-${number}`).insertAdjacentHTML('beforeend', `<td>${stringDisplaySumScore}</td><td>${stringMinute}</td><td>${timeChange(diff-lastDiff)}</td>`);
+    lastDiff = diff;
 
   }
 };
