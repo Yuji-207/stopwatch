@@ -33,8 +33,14 @@ document.getElementById('start').onclick = () => {
 
     intervalId = setInterval(() => {
       diff = Date.now() - startTime;
-      document.getElementById('display').innerHTML = timeChange(diff);
+      document.getElementById('timer').innerHTML = timeChange(diff);
     });
+
+    if (number == 0) {
+      let date = new Date();
+      date = String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+      document.getElementById('start-time').innerHTML = date;
+    }
   }
 };
 
@@ -44,8 +50,6 @@ document.getElementById('stop').onclick = () => {
     count = false;
     stopTime = diff;
     clearInterval(intervalId);
-
-
   }
 };
 
@@ -56,7 +60,8 @@ document.getElementById('reset').onclick = () => {
   scores = [];
   number = [];
   clearInterval(intervalId);
-  document.getElementById('display').innerHTML = '00:00:00';
+  document.getElementById('timer').innerHTML = '00:00:00';
+  document.getElementById('start-time').innerHTML = '00:00';
   document.getElementById('scores').innerHTML = '';
 };
 

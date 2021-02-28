@@ -10,7 +10,10 @@
 </head>
 <body>
     <div class="container-fluid">
-        <h1 class="container-fluid display-1 text-center" id="display">00:00:00</h1>
+        <div id="display">
+            <p class="float-left" id="start-time">00:00</p>
+            <h1 class="container-fluid display-1 text-center" id="timer">00:00:00</h1>
+        </div>
         <div class="btn-group container-fluid" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-primary col-4 border-end" id="reset">
                 <i class="fas fa-undo-alt"></i>
@@ -33,7 +36,7 @@
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
-        <table class="table text-center">
+        <table class="container-fluid table text-center">
             <thead>
                 <tr id="tr-0">
                     <th class="col- col-md-6">Answers</th>
